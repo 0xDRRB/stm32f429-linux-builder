@@ -5,35 +5,33 @@ This is a fork from from jserv/stm32f429-linux-builder, a bunch of Makefile
 stuff to build UBoot+uClinux+BusyBox+rootfs for STM32F429IDISCO board.
 
 The goal is to integrate Robutest source stuff :
-
 * [U-Boot bootloader](https://github.com/robutest/u-boot)
 * [uClinux 2.6.33 kernel](https://github.com/robutest/uclinux)
 * [Busybox](https://github.com/robutest/busybox)
-
 in one place to play with, adding stuff, change default configuration...
 
 Changes from jserv and Robutest/tmk versions :
 
-* add 5s default **bootdelay** to U-Boot 
+* add 5s default **bootdelay** to U-Boot
 * switch **console** from ``ttyS2`` to ``ttyS0`` (uboot & uClinux & login) : PA10 = RX / PA09 = TX
 * add missing ``/sys`` mount point in rootfs
 * change ``/etc/start`` comment out ``/sys/class/gpio/*`` export on GPIO 109 and 110.
 * add ``/sys/class/leds`` support for **LD3** and **LD4** (this one default to ``heartbeat``)
 * add **i2c bus support** (``/dev/i2c-2``). ``i2cdetect`` show onboard STMPE811 (4-wire resistive touch screen controller) :
 ```
-# i2cdetect 2 
+# i2cdetect 2
 WARNING! This program can confuse your I2C bus, cause data loss and worse!
 I will probe file /dev/i2c-2.
 I will probe address range 0x03-0x77.
-Continue? [Y/n] 
+Continue? [Y/n]
      0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
-00:          -- -- -- -- -- -- -- -- -- -- -- -- -- 
-10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
-20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
-30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
-40: -- 41 -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
-50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
-60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+00:          -- -- -- -- -- -- -- -- -- -- -- -- --
+10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+40: -- 41 -- -- -- -- -- -- -- -- -- -- -- -- -- --
+50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 70: -- -- -- -- -- -- -- --
 ```
 * add **SPI** and **spi-dev** support on SPI5 (with CS on PC1). Onboard ST L3GD20 MEMS motion sensor 3-axis digital gyroscope reply on ``/dev/spi0`` (153:0) to WHOAMI (0001111) with L3GD20 id (11010100) :
@@ -44,9 +42,9 @@ Continue? [Y/n]
  bits per word: 8
  max speed: 500000 Hz (500 KHz)
 
- FF D4 
+ FF D4
 ```
-* add little **blue button** to get an interrupt when pushed 
+* add little **blue button** to get an interrupt when pushed
 * add external **SPI4 support** (SCK/NSS/MISO/MOSI on PE2/PE4/PE5/PE6) with **MMC** SPI (default in kernel config) or spi-dev (if MMC SPI disabled). Not perfect because card detection on PA5 use polling (not IRQ, i'm not very happy with this), but it works :
 
 ```
@@ -56,7 +54,7 @@ mmc_spi spi3.0: ASSUMING 3.2-3.4 V slot power
 INFO: enabling interrupt on SD detect
 mmc_spi spi3.0: SD/MMC host mmc0, no DMA, no WP, no poweroff
 mmc0: new MMC card on SPI
-mmcblk0: mmc0:0001 AF HMP 490 MiB 
+mmcblk0: mmc0:0001 AF HMP 490 MiB
  mmcblk0: p1
 [...]
 
@@ -73,6 +71,34 @@ lost+found    pubring.gpg~  secring.gpg
 ```
 
 * add more code to ``exti.c`` to manage STM32 EXTI and a push button support on PC3 (just to play with). ``stm32_exti_set_gpio(port,pin)`` can now be used to choose wich GPIO can trigger an interrupt, in addition to ``stm32_exti_enable_int(line, edge)`` and ``stm32_exti_disable_int(line)`` (replace EmCraft ``stm32_exti_enable_int(line,enable)``) to set EXTI registers/configuration. This will soon change MMC card detection from polling to IRQ managed. For more information on EXTI/NVIC read [RM0090](http://www.st.com/web/en/resource/technical/document/reference_manual/DM00031020.pdf) page 368.
+
+* add Ethernet support with ENC28J60 board on external SPI5 (SCK/CS/SO/SI/INT on PF7/PF6/PF8/PF9/PC3). MAC address is set at boot time in ```rootfs/etc/start``` and static IP address set is in ``rootfs/etc/network/interfaces`` (DHCP too heavy). Note : with ET-MINI ENC28J60 from www.etteam.com SO is "SDI" and SO is "SDO" on the PCB.
+
+```
+~ # dmesg
+[...]
+spi_stm32 spi_stm32.3: SPI Controller 3 at 40013400,hz=90000000
+spi_stm32 spi_stm32.4: SPI Controller 4 at 40015000,hz=90000000
+enc28j60 spi4.0: enc28j60 Ethernet driver 1.01 loaded
+net eth0: enc28j60 driver registered
+i2c /dev entries driver
+[...]
+Freeing init memory: 16K
+net eth0: link down
+net eth0: link up - Half duplex
+[...]
+
+~ # ifconfig eth0
+eth0      Link encap:Ethernet  HWaddr DE:AD:BE:EF:FE:ED
+          inet addr:192.168.0.17  Bcast:192.168.0.255  Mask:255.255.255.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:470 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:107 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:42104 (41.1 KiB)  TX bytes:14004 (13.6 KiB)
+          Interrupt:9
+
+```
 
 TODO:
 
