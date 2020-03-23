@@ -209,7 +209,10 @@ void __init stm32_i2c_init(void)
 		static struct i2c_board_info __initdata
 			stm32f4_bdinfo_i2c3[] = {
 				{
-					I2C_BOARD_INFO("stmpe811", 0x41)
+					I2C_BOARD_INFO("stmpe811", 0x41),
+#if defined(CONFIG_RTC_DRV_DS1307)
+					I2C_BOARD_INFO("ds1338", 0x68),
+#endif
 				},
 			};
 		i2c_register_board_info(2, stm32f4_bdinfo_i2c3,
