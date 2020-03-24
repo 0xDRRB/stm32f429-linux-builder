@@ -97,7 +97,6 @@ eth0      Link encap:Ethernet  HWaddr DE:AD:BE:EF:FE:ED
           collisions:0 txqueuelen:1000
           RX bytes:42104 (41.1 KiB)  TX bytes:14004 (13.6 KiB)
           Interrupt:9
-
 ```
 
 TODO:
