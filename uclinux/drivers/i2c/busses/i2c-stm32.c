@@ -31,9 +31,9 @@
  * to avoid performance and size overhead of debug messages.
  */
 #define I2C_STM32_DEBUG
-//#if 1
-//#undef I2C_STM32_DEBUG
-//#endif
+#if 0
+#undef I2C_STM32_DEBUG
+#endif
 
 #if defined(I2C_STM32_DEBUG)
 

@@ -348,7 +348,13 @@ void __init stm32_iomux_init(void)
 #error          IOMUX for STM32 I2C1 undefined
 #endif
 #if defined(CONFIG_STM32_I2C2)
-#error          IOMUX for STM32 I2C2 undefined
+		gpio_dsc.port = 1;	/* SCL: PB10*/
+		gpio_dsc.pin  = 10;
+		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_I2C2);
+
+		gpio_dsc.port = 1;	/* SDA: PB11*/
+		gpio_dsc.pin  = 11;
+		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_I2C2);
 #endif
 #if defined(CONFIG_STM32_I2C3)
 		gpio_dsc.port = 0;      /* SCL */
@@ -552,7 +558,13 @@ void __init stm32_iomux_init(void)
 		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_I2C1);
 #endif
 #if defined(CONFIG_STM32_I2C2)
-#error		IOMUX for STM32 I2C2 undefined
+		gpio_dsc.port = 1;	/* SCL: PB10*/
+		gpio_dsc.pin  = 10;
+		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_I2C2);
+
+		gpio_dsc.port = 1;	/* SDA: PB11*/
+		gpio_dsc.pin  = 11;
+		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_I2C2);
 #endif
 #if defined(CONFIG_STM32_I2C3)
 		gpio_dsc.port = 0;      /* SCL */
