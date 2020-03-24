@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Linux kernel version: 2.6.33
-# Mon Mar 23 16:40:59 2020
+# Tue Mar 24 16:45:29 2020
 #
 CONFIG_ARM=y
 CONFIG_SYS_SUPPORTS_APM_EMULATION=y
@@ -226,7 +226,7 @@ CONFIG_MACH_STM32=y
 CONFIG_STM32_DMA=y
 CONFIG_STM32_USART1=y
 # CONFIG_STM32_USART2 is not set
-CONFIG_STM32_USART3=y
+# CONFIG_STM32_USART3 is not set
 # CONFIG_STM32_USART4 is not set
 # CONFIG_STM32_USART5 is not set
 # CONFIG_STM32_USART6 is not set
@@ -237,7 +237,7 @@ CONFIG_STM32_SPI4=y
 CONFIG_STM32_SPI5=y
 # CONFIG_STM32_SPI6 is not set
 # CONFIG_STM32_I2C1 is not set
-# CONFIG_STM32_I2C2 is not set
+CONFIG_STM32_I2C2=y
 CONFIG_STM32_I2C3=y
 
 #

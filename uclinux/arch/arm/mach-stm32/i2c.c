@@ -211,7 +211,7 @@ void __init stm32_i2c_init(void)
 				{
 					I2C_BOARD_INFO("stmpe811", 0x41),
 #if defined(CONFIG_RTC_DRV_DS1307)
-					I2C_BOARD_INFO("ds1338", 0x68),
+					//I2C_BOARD_INFO("ds1338", 0x68),
 #endif
 				},
 			};
