@@ -99,20 +99,18 @@ eth0      Link encap:Ethernet  HWaddr DE:AD:BE:EF:FE:ED
           Interrupt:9
 ```
 
+* Added i2c bitbang bus SDA/SCL on PC4/PC5 for DS1338 RTC. Trying to use I2C2 (PB11/PB10) not working because PB11 is G5 and PB10 G4 : green 5 & 4 for LCD driving. Same apply to bitbang i2c on PB11/PB10. Added DS1307 support and hwclock fron BusyBox. We now get time/date at boot time ! PC4/PC5 are OTG pins, this will be a problem later...
+
 TODO:
 
 * more cleaning
 * replace sourceless ``fbtest`` with nyancat
-* ~~add SPI~~ DONE
 * add ST L3GD20 gyroscope userspace tool
-* ~~add i2c~~ DONE
 * STMPE811 as input device
-* ~~add sdcard~~
 * add ADC support
 * add audio (?)
 * add RTC (?)
 * add USB (?)
-* ~~add Ethernet~~ This can't be done without a board hack (http://www.emcraft.com/stm32f429discovery/connecting-to-ethernet-on-stm32f429)
 
 Note : you may need to go back to bootloader to be able to use OpenOCD and stop CPU to access flash for writer. So, just reboot and stop U-Boot in delay count before you ``make install``.
 
