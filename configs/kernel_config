@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Linux kernel version: 2.6.33
-# Tue Mar 24 16:45:29 2020
+# Wed Mar 25 08:41:28 2020
 #
 CONFIG_ARM=y
 CONFIG_SYS_SUPPORTS_APM_EMULATION=y
@@ -237,7 +237,7 @@ CONFIG_STM32_SPI4=y
 CONFIG_STM32_SPI5=y
 # CONFIG_STM32_SPI6 is not set
 # CONFIG_STM32_I2C1 is not set
-CONFIG_STM32_I2C2=y
+# CONFIG_STM32_I2C2 is not set
 CONFIG_STM32_I2C3=y
 
 #
@@ -671,6 +671,7 @@ CONFIG_I2C_BOARDINFO=y
 CONFIG_I2C_COMPAT=y
 CONFIG_I2C_CHARDEV=y
 CONFIG_I2C_HELPER_AUTO=y
+CONFIG_I2C_ALGOBIT=y
 
 #
 # I2C Hardware Bus support
@@ -680,7 +681,7 @@ CONFIG_I2C_HELPER_AUTO=y
 # I2C system bus drivers (mostly embedded / system-on-chip)
 #
 # CONFIG_I2C_DESIGNWARE is not set
-# CONFIG_I2C_GPIO is not set
+CONFIG_I2C_GPIO=y
 # CONFIG_I2C_OCORES is not set
 # CONFIG_I2C_SIMTEC is not set
 CONFIG_I2C_STM32=y
