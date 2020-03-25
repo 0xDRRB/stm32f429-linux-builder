@@ -34,8 +34,8 @@
  * GPIO pins used as I2C_0_SDA and I2C_0_SCL signals on the SOM-BSB baseboard.
  */
 static struct i2c_gpio_platform_data stm32f7som_i2c_gpio_data = {
-	.sda_pin		= STM32_GPIO_PORTPIN2NUM(1, 11),  // PB11
-	.scl_pin		= STM32_GPIO_PORTPIN2NUM(1, 10),  // PB10
+	.sda_pin		= STM32_GPIO_PORTPIN2NUM(2, 4),  // PC4
+	.scl_pin		= STM32_GPIO_PORTPIN2NUM(2, 5),  // PC5
 };
 
 static struct platform_device stm32_gpio_i2c_device = {
@@ -52,7 +52,7 @@ void __init stm32_i2c_gpio_init(void)
 	 */
 	platform = stm32_platform_get();
 	switch (platform) {
-	case PLATFORM_STM32_STM_STM32F7_SOM:
+	case PLATFORM_STM32_STM32429_DISCO:
 		stm32_gpio_i2c_device.dev.platform_data =
 			&stm32f7som_i2c_gpio_data;
 		break;

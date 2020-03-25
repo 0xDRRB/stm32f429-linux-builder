@@ -197,9 +197,6 @@ void __init stm32_i2c_init(void)
 		static struct i2c_board_info i2c_eeprom__stm32_som= {
 			I2C_BOARD_INFO("24c512", 0x57)
 		};
-#endif
-
-#if defined(CONFIG_EEPROM_AT24)
 		i2c_register_board_info(0, &i2c_eeprom__stm32_som, 1);
 #endif
 
@@ -211,14 +208,22 @@ void __init stm32_i2c_init(void)
 				{
 					I2C_BOARD_INFO("stmpe811", 0x41),
 #if defined(CONFIG_RTC_DRV_DS1307)
-					//I2C_BOARD_INFO("ds1338", 0x68),
+					I2C_BOARD_INFO("ds1338", 0x68),
 #endif
 				},
 			};
 		i2c_register_board_info(2, stm32f4_bdinfo_i2c3,
 				sizeof(stm32f4_bdinfo_i2c3) /
 				sizeof (struct i2c_board_info));
-	}
 #endif
+#if defined(CONFIG_I2C_GPIO)
+#if defined(CONFIG_RTC_DRV_DS1307)
+		static struct i2c_board_info stm32f4_bdinfo_rtc= {
+			I2C_BOARD_INFO("ds1338", 0x68)
+		};
+		i2c_register_board_info(0, &stm32f4_bdinfo_rtc, 1);
+#endif
+#endif
+	}
 }
 
