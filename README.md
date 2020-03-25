@@ -99,7 +99,27 @@ eth0      Link encap:Ethernet  HWaddr DE:AD:BE:EF:FE:ED
           Interrupt:9
 ```
 
-* Added i2c bitbang bus SDA/SCL on PC4/PC5 for DS1338 RTC. Trying to use I2C2 (PB11/PB10) not working because PB11 is G5 and PB10 G4 : green 5 & 4 for LCD driving. Same apply to bitbang i2c on PB11/PB10. Added DS1307 support and hwclock fron BusyBox. We now get time/date at boot time ! PC4/PC5 are OTG pins, this will be a problem later...
+* Added i2c bitbang bus SDA/SCL on PC4/PC5 for DS1338 RTC. Trying to use I2C2 (PB11/PB10) not working because PB11 is G5 and PB10 G4 : green 5 & 4 for LCD driving. Same apply to bitbang i2c on PB11/PB10. Added DS1307 support and hwclock fron BusyBox. We now get time/date at boot time ! PC4/PC5 are OTG pins, this will be a problem later.
+
+```
+[...]
+enc28j60 spi4.0: enc28j60 Ethernet driver 1.01 loaded
+net eth0: enc28j60 driver registered
+i2c /dev entries driver
+rtc-ds1307 0-0068: rtc core: registered ds1338 as rtc0
+rtc-ds1307 0-0068: 56 bytes nvram
+i2c-gpio i2c-gpio.0: using pins 36 (SDA) and 37 (SCL)
+rtc-ds1307: probe of 2-0068 failed with error -5
+i2c_stm32 i2c_stm32.2: I2C Controller i2c-2 at 40005c00,irq=72
+mmc_spi spi3.0: ASSUMING SPI bus stays unshared!
+[...]
+
+~ # date
+Wed Mar 25 10:21:58 UTC 2020
+~ # hwclock
+Wed Mar 25 10:22:01 2020  0.000000 seconds
+~ #
+```
 
 TODO:
 
