@@ -1,6 +1,11 @@
 uClinux for STM32F429IDISCO
 ===========================
 
+**WARNING** : This is a very old project. STM32F429I DISCO is now supported
+by Linux (not µClinux) and Buildroot. This repo doesn't really matter anymore
+and is rather obsolete. It might just be fun to backport all of this to
+Buildroot someday...
+
 This is a fork from from jserv/stm32f429-linux-builder, a bunch of Makefile
 stuff to build UBoot+uClinux+BusyBox+rootfs for STM32F429IDISCO board.
 
@@ -72,7 +77,7 @@ lost+found    pubring.gpg~  secring.gpg
 
 * add more code to ``exti.c`` to manage STM32 EXTI and a push button support on PC3 (just to play with). ``stm32_exti_set_gpio(port,pin)`` can now be used to choose wich GPIO can trigger an interrupt, in addition to ``stm32_exti_enable_int(line, edge)`` and ``stm32_exti_disable_int(line)`` (replace EmCraft ``stm32_exti_enable_int(line,enable)``) to set EXTI registers/configuration. This will soon change MMC card detection from polling to IRQ managed. For more information on EXTI/NVIC read [RM0090](http://www.st.com/web/en/resource/technical/document/reference_manual/DM00031020.pdf) page 368.
 
-* add Ethernet support with ENC28J60 board on external SPI5 (SCK/CS/SO/SI/INT on PF7/PF6/PF8/PF9/PC3). MAC address is set at boot time in ```rootfs/etc/start``` and static IP address set is in ``rootfs/etc/network/interfaces`` (DHCP too heavy). Note : with ET-MINI ENC28J60 from www.etteam.com SO is "SDI" and SO is "SDO" on the PCB.
+* add Ethernet support with ENC28J60 board on external SPI5 (SCK/CS/SO/SI/INT on PF7/PF6/PF8/PF9/PC3). MAC address is set at boot time in ```rootfs/etc/start``` and static IP address set is in ``rootfs/etc/network/interfaces`` (DHCP too heavy). Note : with ET-MINI ENC28J60 from www.etteam.com SI is "SDI" and SO is "SDO" on the PCB.
 
 ```
 ~ # dmesg
@@ -129,7 +134,6 @@ TODO:
 * STMPE811 as input device
 * add ADC support
 * add audio (?)
-* add RTC (?)
 * add USB (?)
 
 Note : you may need to go back to bootloader to be able to use OpenOCD and stop CPU to access flash for writer. So, just reboot and stop U-Boot in delay count before you ``make install``.
